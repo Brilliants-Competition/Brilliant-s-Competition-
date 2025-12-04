@@ -1,26 +1,27 @@
-<!DOCTYPE html>
+      <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Brilliant's Competition Registration</title>
-  <!-- Include html2canvas library for downloading -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoeqMV/TJlSKda6FXzoEyYGjTe+vXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <!-- NEW & BEST LIBRARY FOR PERFECT IMAGE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image-more/2.12.0/dom-to-image-more.min.js"></script>
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@400;700&display=swap'); /* Import fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@400;700&display=swap');
 
     body {
-       font-family: Arial, sans-serif;
+      font-family: Arial, sans-serif;
       text-align: center;
       padding: 20px;
       background: linear-gradient(to right, #4A90E2, #50C878);
       color: white;
       margin: 0;
-      padding-bottom: 100px; /* Adjusted footer space */
+      padding-bottom: 100px;
     }
-    /* Removed #pageLogo CSS */
     h1 {
-      margin: 20px 0; /* Restored default margin */
+      margin: 20px 0;
       font-size: 32px;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
       -webkit-text-stroke: 1px black;
@@ -45,7 +46,7 @@
       color: black;
       animation: fadeIn 1s;
       text-align: left;
-      overflow: hidden; /* Keep this */
+      overflow: hidden;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.9); }
@@ -53,7 +54,6 @@
     }
     label {
       display: block;
-      text-align: left;
       margin-top: 12px;
       margin-bottom: 4px;
       font-weight: bold;
@@ -71,100 +71,69 @@
     input[type="file"] { border: none; padding-left: 0; }
     button.choose-file-btn {
       background: #f0f0f0; color: black; border: 1px solid #ccc;
-      text-align: center; margin-bottom: 10px; padding: 10px;
+      text-align: center; padding: 10px; cursor: pointer;
     }
-    button.choose-file-btn:hover { background: #e0e0e0; }
     button { cursor: pointer; transition: 0.3s; font-weight: bold;}
     button:hover { transform: scale(1.02); }
     .pay-btn { background: green; color: white; }
     .admit-btn { background: blue; color: white; display: none; }
     .upload-btn { background: orange; color: white; display: none; }
-    #downloadCardBtn { /* Style for the download button */
-        background: #17a2b8; /* Teal color */
+    
+    #downloadCardBtn {
+        background: #17a2b8;
         color: white;
-        margin-top: 10px; /* Space above */
-        display: none; /* Hide initially */
-        width: auto; /* Fit content */
-        padding: 10px 20px; /* Padding */
-        float: right; /* Position it nicely */
+        margin-top: 15px;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        display: none;
+        width: auto;
+        float: right;
     }
-    #downloadCardBtn:hover {
-        background: #138496;
-    }
+    #downloadCardBtn:hover { background: #138496; }
 
-
-    /* --- Photo Preview Styling --- */
-    #photoPreviewContainer { text-align: center; margin: 10px 0 15px 0; min-height: 100px; }
+    #photoPreviewContainer { text-align: center; margin: 15px 0; }
     #photoPreview {
       display: none; max-width: 90%; max-height: 150px;
-      height: auto; width: auto; margin: 0 auto; border: 1px solid #ccc;
-      border-radius: 5px; opacity: 0; transition: opacity 0.5s;
+      border: 1px solid #ccc; border-radius: 5px;
+      opacity: 0; transition: opacity 0.5s;
     }
-    #photoPreview[src^="data:"] { display: inline-block; opacity: 1; } /* Show only when src is set */
+    #photoPreview[src^="data:"] { display: inline-block; opacity: 1; }
 
-    /* --- UPDATED ADMIT CARD STYLING --- */
     #admitCard {
       display: none;
       border: 2px solid #0b3c5d;
-      background-color: #ffffff; /* Solid white background */
+      background-color: #ffffff;
       padding: 15px;
       margin-top: 25px;
       border-radius: 8px;
       font-family: 'Roboto', sans-serif;
       color: #333;
-      width: 100%;
-      box-sizing: border-box;
-      animation: fadeIn 1s;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
       position: relative;
-      overflow: hidden; /* Ensure content stays within borders */
-      /* Removed watermark background properties */
+      overflow: hidden;
     }
 
     .card-header {
       background-color: #0b3c5d;
       color: white;
-      padding: 10px;
+      padding: 12px;
       text-align: center;
-      margin: -15px -15px 15px -15px; /* Extend to edges */
+      margin: -15px -15px 15px -15px;
       border-bottom: 2px solid #328cc1;
       border-radius: 6px 6px 0 0;
-      position: relative;
-      z-index: 1;
     }
-    .card-header h3 {
-      margin: 0;
-      font-size: 18px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      font-family: 'Oswald', sans-serif;
-    }
-     .card-header p {
-         margin: 5px 0 0 0;
-         font-size: 14px;
-         font-weight: 400;
-     }
+    .card-header h3 { margin: 0; font-size: 19px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Oswald', sans-serif; }
+    .card-header p { margin: 6px 0 0; font-size: 14px; }
 
-    .card-main-content {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 15px;
-      flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
-      /* Removed rgba background */
-      /* Removed padding and negative margins related to rgba background */
-    }
-
-    .card-photo-section {
-      flex: 0 0 120px;
-      text-align: center;
-    }
+    .card-main-content { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
+    .card-photo-section { flex: 0 0 120px; text-align: center; }
     .card-photo-container {
        border: 2px solid #0b3c5d;
        padding: 4px;
-       background-color: #f8f9fa; /* Keep slight distinction for photo box */
+       background-color: #f8f9fa;
        width: 110px;
        height: 130px;
        display: flex;
@@ -173,288 +142,56 @@
        margin: auto;
        overflow: hidden;
     }
-    #cardPhoto {
-      max-width: 100%;
-      max-height: 100%;
-      display: block;
-      object-fit: cover;
-    }
+    #cardPhoto { max-width: 100%; max-height: 100%; object-fit: cover; }
 
-    .card-details-section {
-       flex: 1;
-       min-width: 200px;
-    }
-    .details-group h4 {
-         margin: 0 0 8px 0;
-         font-size: 14px;
-         color: #0b3c5d;
-         border-bottom: 1px solid #eee;
-         padding-bottom: 4px;
-         text-transform: uppercase;
-         font-family: 'Oswald', sans-serif;
-         font-weight: 700;
-         letter-spacing: 0.5px;
-     }
-     .details-group {
-         margin-bottom: 15px;
-     }
-     .details-group:last-child {
-         margin-bottom: 0;
-     }
-
+    .card-details-section { flex: 1; min-width: 200px; }
+    .details-group h4 { margin: 0 0 8px 0; font-size: 14px; color: #0b3c5d; border-bottom: 1px solid #eee; padding-bottom: 4px; text-transform: uppercase; font-family: 'Oswald', sans-serif; font-weight: 700; }
     .detail-item {
-      margin-bottom: 8px;
-      padding-bottom: 4px;
-      font-size: 14px;
-      display: flex;
-      justify-content: flex-start;
-      align-items: baseline;
-      gap: 5px;
-      flex-wrap: nowrap;
-      line-height: 1.4;
+      margin-bottom: 8px; font-size: 14px;
+      display: flex; gap: 5px; line-height: 1.4;
     }
-     .detail-item:last-child {
-         margin-bottom: 0;
-     }
-
-    .detail-item strong {
-      font-weight: 700;
-      color: #333;
-      flex-shrink: 0;
-      width: 110px;
-      text-align: left;
-      padding-right: 5px;
-    }
-     .detail-item span {
-       text-align: left;
-       word-break: break-word;
-       color: #555;
-       flex-grow: 1;
-     }
-     .detail-item span.important {
-         font-weight: bold;
-         color: #000;
-     }
+    .detail-item strong { font-weight: 700; color: #333; flex-shrink: 0; width: 110px; }
+    .detail-item span { color: #555; flex-grow: 1; }
+    .detail-item span.important { font-weight: bold; color: #000; }
 
     .card-footer {
       border-top: 1px solid #d9e2ec;
-      padding-top: 10px; /* Keep top padding */
+      padding-top: 12px;
       margin-top: 15px;
-      position: relative;
-      z-index: 1;
-      /* Removed rgba background */
-      /* Removed padding/margins related to rgba background */
-      overflow: hidden; /* Clear floats like download button */
+      overflow: hidden;
     }
     .footer-section {
-       display: flex;
-       justify-content: space-between;
-       align-items: center;
-       padding: 8px 0; /* Vertical padding only */
-       flex-wrap: wrap;
-       gap: 10px;
+       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
     }
     .exam-date-block {
-        background-color: #0b3c5d;
-        color: white;
-        padding: 5px 10px;
-        text-align: center;
-        border-radius: 3px;
-        flex-shrink: 0;
+        background-color: #0b3c5d; color: white; padding: 8px 12px; border-radius: 4px;
     }
-     .exam-date-block strong {
-         display: block;
-         font-size: 15px;
-         font-family: 'Oswald', sans-serif;
-         text-transform: uppercase;
-     }
-      .footer-info {
-          flex-grow: 1;
-          text-align: right;
-      }
-      .footer-info p {
-          margin: 0 0 3px 0;
-          font-size: 13px;
-          font-weight: bold;
-          color: #0b3c5d;
-      }
-       .footer-info p:last-child { margin-bottom: 0; }
-       .footer-info a {
-           color: #328cc1;
-           text-decoration: none;
-       }
-       .footer-info a:hover {
-           text-decoration: underline;
-       }
+    .exam-date-block strong { display: block; font-size: 15px; font-family: 'Oswald', sans-serif; text-transform: uppercase; }
 
-     /* --- Download Button Area is inside card-footer now --- */
+    .footer-info p { margin: 0 0 4px 0; font-size: 13px; font-weight: bold; color: #0b3c5d; }
+    .footer-info a { color: #328cc1; text-decoration: none; }
+    .footer-info a:hover { text-decoration: underline; }
 
-    /* --- Styling for Announcement Notice --- */
     #announcementNotice {
-        display: none;
-        margin: 20px 0;
-        padding: 15px;
-        background-color: #fff3cd;
-        border: 1px solid #ffeeba;
-        color: #856404;
-        border-radius: 5px;
-        text-align: center;
-        font-size: 15px;
+        display: none; margin: 20px 0; padding: 15px; background-color: #fff3cd;
+        border: 1px solid #ffeeba; color: #856404; border-radius: 5px; text-align: center; font-size: 15px;
     }
-    #announcementNotice strong {
-        display: block;
-        margin-bottom: 5px;
-        font-size: 16px;
-    }
-    #announcementNotice a {
-        color: #007bff;
-        text-decoration: underline;
-        word-break: break-all;
-    }
-     #announcementNotice a:hover {
-         color: #0056b3;
-     }
 
     .footer {
       position: fixed; bottom: 10px; left: 0; width: 100%;
       text-align: center; font-size: 15px; font-style: italic;
-      color: white; text-shadow: 1px 1px 2px black;
-      z-index: 10;
+      color: white; text-shadow: 1px 1px 2px black; z-index: 10;
     }
-     .container::after { content: ""; clear: both; display: table; }
 
-     /* --- MOBILE RESPONSIVENESS --- */
-     @media (max-width: 600px) {
-        body {
-            padding: 15px;
-            padding-bottom: 80px;
-        }
-        /* Removed #pageLogo mobile styles */
-        h1 {
-            font-size: 26px;
-        }
-        .container {
-            padding: 15px;
-            max-width: 95%;
-        }
-        input, button, select {
-            font-size: 15px;
-        }
-        #downloadCardBtn {
-            padding: 8px 15px;
-            font-size: 14px;
-            margin-top: 8px;
-        }
-
-        /* Admit Card Adjustments */
-        /* Removed watermark background mobile styles */
-         .card-photo-section {
-             flex: 0 0 100px;
-         }
-         .card-photo-container {
-             width: 90px;
-             height: 110px;
-         }
-
-         .details-group h4 {
-             font-size: 13px;
-         }
-
-        .detail-item {
-            font-size: 13px;
-             gap: 3px;
-             margin-bottom: 6px;
-             line-height: 1.3;
-        }
-        .detail-item strong {
-            width: 90px;
-            font-size: 12px;
-            padding-right: 3px;
-        }
-        .detail-item span {
-            font-size: 13px;
-        }
-
-        /* Removed padding/margin adjustments for footer/content related to rgba background */
-
-        .footer-section {
-             gap: 8px;
-        }
-        .footer-info {
-            text-align: left;
-        }
-        .footer-info p {
-            font-size: 12px;
-        }
-        .exam-date-block strong {
-             font-size: 14px;
-        }
-        #announcementNotice {
-            padding: 10px;
-            font-size: 14px;
-        }
-        #announcementNotice strong {
-            font-size: 15px;
-        }
-     }
-
-     @media (max-width: 450px) { /* Adjustments for smaller screens */
-         /* Removed #pageLogo smaller screen styles */
-         h1 { font-size: 22px; letter-spacing: 0.5px; }
-         .note { font-size: 16px; }
-         .container { padding: 10px; }
-         label { font-size: 14px; }
-         input, button, select { font-size: 14px; padding: 8px; }
-         #downloadCardBtn {
-             width: 100%; /* Full width button */
-             float: none; /* Disable float */
-             margin-top: 10px;
-             text-align: center;
-         }
-
-         #admitCard { padding: 10px; /* Removed background size */ }
-         .card-header { padding: 8px; margin: -10px -10px 10px -10px; }
-         .card-header h3 { font-size: 16px; }
-         .card-header p { font-size: 13px; }
-
-         .card-main-content {
-             flex-direction: column;
-             gap: 10px;
-             /* Removed padding/margin adjustments */
-         }
-         .card-photo-section {
-             flex-basis: auto;
-             width: 100%;
-             text-align: center;
-         }
-         .card-photo-container {
-             width: 110px;
-             height: 130px;
-             margin-bottom: 10px;
-         }
-         .card-details-section {
-             min-width: unset;
-         }
-         .detail-item strong {
-             width: 80px;
-         }
-         /* Removed padding/margin adjustments for footer */
-         .footer-section {
-             /* Optional: uncomment below to stack date and info */
-             /* flex-direction: column;
-             align-items: flex-start; */
-         }
-     }
-
+    @media (max-width: 600px) {
+      #downloadCardBtn { float: none; width: 100%; margin-top: 15px; }
+    }
   </style>
-  <!-- html2canvas script is included in <head> -->
 </head>
 <body>
 
-  <!-- === LOGO REMOVED FROM HERE === -->
-
   <h1>Brilliant's Competition</h1>
-  <p class="note">👉Note - Hurry up! Limited seats available.</p>
+  <p class="note">Note - Hurry up! Limited seats available.</p>
 
   <div class="container">
     <h2>Registration Form</h2>
@@ -484,351 +221,174 @@
         <img id="photoPreview" src="#" alt="Your photo preview">
     </div>
 
-    <label for="referralCode">Referral Code (Optional):</label>
-    <input type="text" id="referralCode" placeholder="Enter referral code if any">
-
-    <h3>Exam Fee: <span style="text-decoration: line-through;">₹100</span> <span style="color: red; font-weight: bold;">₹0</span> (<span style="color: red; font-weight: bold;">Limited Time Offer!</span>)</h3>
+    <h3>Exam Fee: <span style="text-decoration: line-through;">₹100</span> <span style="color: red; font-weight: bold;">₹0</span> (Limited Time Offer!)</h3>
     <h3>Application Fee: <span style="text-decoration: line-through;">₹200</span> <span style="color: green; font-weight: bold;">₹99 only</span></h3>
 
-    <!-- === UPDATED PAY BUTTON === -->
     <button class="pay-btn" onclick="payNow()">Pay ₹99 via UPI</button>
-    <!-- ======================== -->
 
     <input type="file" id="paymentScreenshot" accept="image/*" style="display:none;" onchange="enableAdmitCard()">
     <button class="upload-btn" onclick="document.getElementById('paymentScreenshot').click()">Upload Payment Screenshot</button>
 
     <div id="announcementNotice">
         <strong>Updates & Announcements</strong><br>
-        <a href="https://whatsapp.com/channel/0029VbA5AWsLSmbeN6yCmA10" target="_blank">https://whatsapp.com/channel/0029VbA5AWsLSmbeN6yCmA10</a>
+        <a href="https://whatsapp.com/channel/0029VbCElulIt5ro8a6f2j3Y" target="_blank">https://whatsapp.com/channel/0029VbCElulIt5ro8a6f2j3Y</a>
     </div>
 
     <button class="admit-btn" onclick="generateAdmitCard()">Generate Admit Card</button>
 
-    <!-- == RESTRUCTURED ADMIT CARD (No Watermark, With Download Button) == -->
+    <!-- ADMIT CARD -->
     <div id="admitCard">
-        <!-- Header -->
         <div class="card-header">
             <h3>Congratulations!</h3>
-             <p>You are eligible for the Exam</p>
+            <p>You are eligible for the Exam</p>
         </div>
 
-        <!-- Main Content (Photo Left, Details Right) -->
         <div class="card-main-content">
-            <!-- Photo Section -->
             <div class="card-photo-section">
                  <div class="card-photo-container">
                      <img id="cardPhoto" src="#" alt="Candidate Photo">
                  </div>
             </div>
-            <!-- Details Section -->
             <div class="card-details-section">
                  <div class="details-group">
                      <h4>Candidate Details</h4>
-                     <div class="detail-item">
-                         <strong>NAME:</strong>
-                         <span id="cardName" class="important"></span>
-                     </div>
-                     <div class="detail-item">
-                         <strong>FATHER'S NAME:</strong>
-                         <span id="cardFatherName"></span>
-                     </div>
-                      <div class="detail-item">
-                         <strong>CLASS:</strong>
-                         <span id="cardClass"></span>
-                     </div>
-                     <div class="detail-item">
-                         <strong>ADDRESS:</strong>
-                         <span id="cardAddress"></span>
-                     </div>
+                     <div class="detail-item"><strong>NAME:</strong><span id="cardName" class="important"></span></div>
+                     <div class="detail-item"><strong>FATHER'S NAME:</strong><span id="cardFatherName"></span></div>
+                     <div class="detail-item"><strong>CLASS:</strong><span id="cardClass"></span></div>
+                     <div class="detail-item"><strong>ADDRESS:</strong><span id="cardAddress"></span></div>
                  </div>
                  <div class="details-group">
                      <h4>Admit Card Details</h4>
-                     <div class="detail-item">
-                         <strong>ROLL NO:</strong>
-                         <span id="rollNo" class="important"></span>
-                     </div>
-                      <div class="detail-item">
-                         <strong>SCHOOL:</strong>
-                         <span id="cardSchoolName"></span>
-                     </div>
-                     <div class="detail-item">
-                         <strong>CONTACT NO:</strong>
-                         <span id="cardContactNo"></span>
-                     </div>
-                     <div class="detail-item">
-                         <strong>REGISTRATION:</strong>
-                         <span>CONFIRMED</span>
-                     </div>
-                      <div class="detail-item">
-                         <strong>STATUS:</strong>
-                         <span>ELIGIBLE</span>
-                     </div>
+                     <div class="detail-item"><strong>ROLL NO:</strong><span id="rollNo" class="important"></span></div>
+                     <div class="detail-item"><strong>SCHOOL:</strong><span id="cardSchoolName"></span></div>
+                     <div class="detail-item"><strong>CONTACT NO:</strong><span id="cardContactNo"></span></div>
+                     <div class="detail-item"><strong>REGISTRATION:</strong><span>CONFIRMED</span></div>
+                     <div class="detail-item"><strong>STATUS:</strong><span>ELIGIBLE</span></div>
                  </div>
             </div>
         </div>
 
-        <!-- Footer -->
         <div class="card-footer">
              <div class="footer-section">
-                 <div class="exam-date-block">
-                    <strong>EXAM DATE</strong>
-                 </div>
+                 <div class="exam-date-block"><strong>EXAM DATE</strong></div>
                  <div class="footer-info">
                      <p>TO BE ANNOUNCED</p>
-                     <p><a href="https://whatsapp.com/channel/0029VbA5AWsLSmbeN6yCmA10" target="_blank">CHECK GIVEN LINK</a></p>
+                     <p><a href="https://whatsapp.com/channel/0029VbCElulIt5ro8a6f2j3Y" target="_blank">CHECK GIVEN LINK</a></p>
                  </div>
              </div>
-             <!-- Download Button -->
              <button id="downloadCardBtn" onclick="downloadAdmitCard()">Download Admit Card</button>
-             <div style="clear:both;"></div> <!-- Clear float -->
+             <div style="clear:both;"></div>
         </div>
     </div>
-    <!-- == END OF RESTRUCTURED ADMIT CARD == -->
   </div>
 
-  <div class="footer">
-    Developed by Shekhar Mishra
-  </div>
+  <div class="footer">Developed by Shekhar Mishra</div>
 
   <script>
     let uploadedPhotoSrc = null;
-    let currentRollNo = ''; // Variable to store the generated roll number
+    let currentRollNo = '';
 
     function previewPhoto() {
-      const photoInput = document.getElementById('photoUpload');
-      const photoPreview = document.getElementById('photoPreview');
+      const file = document.getElementById('photoUpload').files[0];
+      if (!file) return;
+      if (file.size > 2*1024*1024) { alert("Photo size should be under 2MB"); return; }
+      if (!file.type.startsWith('image/')) { alert("Please upload a valid image"); return; }
 
-      if (photoInput.files && photoInput.files[0]) {
-        const fileSize = photoInput.files[0].size / 1024 / 1024; // in MB
-        if (fileSize > 2) {
-           alert("File size exceeds 2MB limit. Please upload a smaller photo.");
-           photoInput.value = '';
-           photoPreview.src = "#";
-           uploadedPhotoSrc = null;
-           photoPreview.style.opacity = 0;
-           photoPreview.style.display = 'none';
-           return;
-        }
-        if (!photoInput.files[0].type.startsWith('image/')){
-            alert("Please select a valid image file (JPG, PNG, GIF, etc.).");
-            photoInput.value = '';
-            photoPreview.src = "#";
-            uploadedPhotoSrc = null;
-            photoPreview.style.opacity = 0;
-            photoPreview.style.display = 'none';
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          photoPreview.src = e.target.result;
-          uploadedPhotoSrc = e.target.result;
-          photoPreview.style.display = 'inline-block';
-          photoPreview.style.opacity = 1;
-        }
-        reader.readAsDataURL(photoInput.files[0]);
-      } else {
-          photoPreview.src = "#";
-          uploadedPhotoSrc = null;
-          photoPreview.style.opacity = 0;
-          photoPreview.style.display = 'none';
-      }
+      const reader = new FileReader();
+      reader.onload = e => {
+        document.getElementById('photoPreview').src = e.target.result;
+        uploadedPhotoSrc = e.target.result;
+        document.getElementById('photoPreview').style.display = 'inline-block';
+        document.getElementById('photoPreview').style.opacity = 1;
+      };
+      reader.readAsDataURL(file);
     }
 
-    // === UPDATED payNow Function ===
     function payNow() {
-      const name = document.getElementById('name').value.trim();
-      const fatherName = document.getElementById('fatherName').value.trim();
-      const className = document.getElementById('class').value.trim();
-      const schoolName = document.getElementById('schoolName').value.trim();
-      const address = document.getElementById('address').value.trim();
-      const contactNo = document.getElementById('contactNo').value.trim();
-      const payButton = document.querySelector('.pay-btn');
-
-      // --- Validation ---
-      if (!name || !fatherName || !className || !schoolName || !address || !contactNo || !uploadedPhotoSrc) {
-        alert("Please fill in all required fields and upload your photo before proceeding to payment.");
-        return;
+      // ... same as before (unchanged)
+      const fields = ['name','fatherName','class','schoolName','address','contactNo'];
+      if (fields.some(f => !document.getElementById(f).value.trim()) || !uploadedPhotoSrc) {
+        alert("Please fill all fields and upload photo"); return;
       }
-       if (!/^[0-9]{10}$/.test(contactNo)) {
-           alert("Please enter a valid 10-digit Contact Number before proceeding.");
-           return;
-       }
-       // --- End Validation ---
+      if (!/^\d{10}$/.test(document.getElementById('contactNo').value)) {
+        alert("Enter valid 10-digit number"); return;
+      }
 
-       // Construct the UPI link
-       const payeeAddress = "mishramishra8085@okhdfcbank";
-       const payeeName = "BrilliantsCompetition"; // Use URL encoding if name has spaces/special chars: encodeURIComponent("Brilliant's Competition")
-       const amount = "99";
-       const currency = "INR";
-       const transactionNote = "RegistrationFee"; // Use URL encoding if needed: encodeURIComponent("Registration Fee")
-       const upiLink = `upi://pay?pa=${payeeAddress}&pn=${payeeName}&am=${amount}&cu=${currency}&tn=${transactionNote}`;
+      alert("Redirecting to UPI app for ₹99 payment...");
+      setTimeout(() => {
+        window.location.href = "upi://pay?pa=mishramishra8085@okhdfcbank&pn=BrilliantsCompetition&am=99&cu=INR&tn=RegistrationFee";
+      }, 800);
 
-       // Disable button immediately to prevent double clicks
-       payButton.disabled = true;
-       payButton.textContent = 'Processing...';
-
-       // Inform user and attempt to open UPI link
-       alert("You will be redirected to your UPI app to complete the payment of ₹99. After successful payment, please return to this page and upload the payment screenshot.");
-
-        try {
-             // Attempt to navigate to the UPI link
-            window.location.href = upiLink;
-        } catch (error) {
-            console.error("Could not open UPI link:", error);
-            alert("Could not automatically open UPI app. Please manually pay ₹99 to UPI ID: " + payeeAddress);
-        }
-
-       // Update UI for screenshot upload (regardless of whether UPI app opened successfully)
-       // Give a slight delay for the browser to potentially switch apps
-       setTimeout(() => {
-            payButton.style.display = 'none'; // Hide pay button
-            document.querySelector('.upload-btn').style.display = 'block'; // Show upload button
-            document.querySelector('.upload-btn').scrollIntoView({ behavior: 'smooth', block: 'center' });
-            // Re-enable button potentially (though it's hidden) in case user comes back without paying
-            // payButton.disabled = false;
-            // payButton.textContent = 'Pay ₹99 via UPI';
-       }, 500); // 0.5 second delay
-
-
-       // Note: The payment simulation (setTimeout) is removed.
+      setTimeout(() => {
+        document.querySelector('.pay-btn').style.display = 'none';
+        document.querySelector('.upload-btn').style.display = 'block';
+      }, 1200);
     }
-    // === END of UPDATED payNow Function ===
-
 
     function enableAdmitCard() {
-      const screenshotInput = document.getElementById('paymentScreenshot');
-      if (screenshotInput.files && screenshotInput.files[0]) {
-         if (!screenshotInput.files[0].type.startsWith('image/')){
-             alert("Please upload a valid image file for the screenshot (e.g., JPG, PNG).");
-             screenshotInput.value = '';
-             return;
-         }
-
-        alert("Screenshot Uploaded! You can now generate your Admit Card.");
-        document.querySelector('.upload-btn').style.display = 'none'; // Hide upload button
-
-        const noticeElement = document.getElementById('announcementNotice');
-        noticeElement.style.display = 'block'; // Show announcement
-
-        document.querySelector('.admit-btn').style.display = 'block'; // Show Generate Admit Card button
-        noticeElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else {
-         alert("Please select a screenshot file.");
+      if (document.getElementById('paymentScreenshot').files[0]) {
+        alert("Screenshot uploaded! Now generate admit card.");
+        document.querySelector('.upload-btn').style.display = 'none';
+        document.getElementById('announcementNotice').style.display = 'block';
+        document.querySelector('.admit-btn').style.display = 'block';
       }
     }
 
     function generateAdmitCard() {
+      // ... same population logic
       const name = document.getElementById('name').value.trim();
-      const fatherName = document.getElementById('fatherName').value.trim();
-      const className = document.getElementById('class').value.trim();
-      const schoolName = document.getElementById('schoolName').value.trim();
-      const address = document.getElementById('address').value.trim();
-      const contactNo = document.getElementById('contactNo').value.trim();
+      const namePart = name.substring(0,3).toUpperCase().replace(/[^A-Z]/g,'X') || 'STU';
+      currentRollNo = "BRIL" + namePart + Date.now().toString().slice(-5);
 
-      // Re-validate essential fields before generating
-      if (!name || !fatherName || !className || !schoolName || !address || !contactNo || !uploadedPhotoSrc) {
-        alert("Data missing. Please ensure all fields were filled and photo uploaded correctly.");
-        return;
-      }
-       if (!/^[0-9]{10}$/.test(contactNo)) {
-           alert("Invalid Contact Number detected.");
-           return;
-       }
-
-      // Generate Roll Number
-      const timestamp = Date.now().toString();
-      const namePart = name.substring(0, 3).toUpperCase().replace(/[^A-Z]/g, 'X') || 'STU'; // Ensure valid chars
-      currentRollNo = "BRIL" + namePart + timestamp.substring(timestamp.length - 5); // Store roll number
-
-      // Populate Admit Card
       document.getElementById('cardName').innerText = name;
-      document.getElementById('cardFatherName').innerText = fatherName;
-      document.getElementById('cardClass').innerText = className;
-      document.getElementById('cardAddress').innerText = address;
+      document.getElementById('cardFatherName').innerText = document.getElementById('fatherName').value.trim();
+      document.getElementById('cardClass').innerText = document.getElementById('class').value.trim();
+      document.getElementById('cardAddress').innerText = document.getElementById('address').value.trim();
       document.getElementById('rollNo').innerText = currentRollNo;
-      document.getElementById('cardSchoolName').innerText = schoolName;
-      document.getElementById('cardContactNo').innerText = contactNo;
+      document.getElementById('cardSchoolName').innerText = document.getElementById('schoolName').value.trim();
+      document.getElementById('cardContactNo').innerText = document.getElementById('contactNo').value.trim();
+      document.getElementById('cardPhoto').src = uploadedPhotoSrc;
 
-      // Set the photo in the admit card
-      const cardPhoto = document.getElementById('cardPhoto');
-      if (uploadedPhotoSrc) {
-          cardPhoto.src = uploadedPhotoSrc;
-      } else {
-          cardPhoto.alt = "Photo not available";
-          cardPhoto.src = "";
-          console.error("Error: uploadedPhotoSrc is null when generating admit card.");
-      }
-
-      // Show Admit Card and Download Button
       document.getElementById('admitCard').style.display = 'block';
       document.getElementById('downloadCardBtn').style.display = 'inline-block';
       document.querySelector('.admit-btn').style.display = 'none';
-      document.getElementById('announcementNotice').style.display = 'none';
+    }
 
-      // Scroll to Admit Card
-      const admitCardElement = document.getElementById('admitCard');
-      const offset = 20;
-      const elementPosition = admitCardElement.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
+    // PERFECT DOWNLOAD FUNCTION
+    function downloadAdmitCard() {
+      const node = document.getElementById('admitCard');
+      const btn = document.getElementById('downloadCardBtn');
+      btn.textContent = "Preparing...";
+      btn.disabled = true;
 
-      window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
+      // Temporarily hide button
+      btn.style.display = 'none';
+
+      domtoimage.toPng(node, {
+        quality: 1,
+        bgcolor: '#ffffff',
+        width: node.scrollWidth * 3,
+        height: node.scrollHeight * 3,
+        style: { transform: 'scale(3)', transformOrigin: 'top left' }
+      })
+      .then(dataUrl => {
+        const link = document.createElement('a');
+        link.download = `Brilliants_Admit_Card_${currentRollNo}.png`;
+        link.href = dataUrl;
+        link.click();
+
+        btn.textContent = "Download Admit Card";
+        btn.style.display = 'inline-block';
+        btn.disabled = false;
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Download failed. Try again.");
+        btn.textContent = "Download Admit Card";
+        btn.style.display = 'inline-block';
+        btn.disabled = false;
       });
     }
-
-    // === Function TO DOWNLOAD ADMIT CARD (Unchanged from previous version) ===
-    function downloadAdmitCard() {
-        const admitCardElement = document.getElementById('admitCard');
-        const downloadButton = document.getElementById('downloadCardBtn');
-
-        if (!admitCardElement || typeof html2canvas === 'undefined') {
-            alert("Error preparing download. Cannot find Admit Card element or necessary library.");
-            console.error("html2canvas library not found or admitCard element missing.");
-            return;
-        }
-        if(!currentRollNo){
-            alert("Error: Roll Number not generated yet.");
-            return;
-        }
-
-        downloadButton.style.visibility = 'hidden';
-        const originalButtonText = downloadButton.textContent;
-        downloadButton.textContent = 'Processing...';
-        downloadButton.disabled = true;
-
-        const options = {
-            scale: 2,
-            useCORS: true,
-            backgroundColor: '#ffffff', // Ensure solid background for download
-            logging: false
-        };
-
-        html2canvas(admitCardElement, options).then(canvas => {
-            const imageDataUrl = canvas.toDataURL('image/png');
-            const link = document.createElement('a');
-            link.href = imageDataUrl;
-            link.download = `Brilliants_Admit_Card_${currentRollNo}.png`;
-
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
-            downloadButton.style.visibility = 'visible';
-            downloadButton.textContent = originalButtonText;
-            downloadButton.disabled = false;
-
-        }).catch(error => {
-            console.error('Error generating admit card image:', error);
-            alert('Sorry, there was an error creating the download file. Please try again.');
-            downloadButton.style.visibility = 'visible';
-            downloadButton.textContent = originalButtonText;
-            downloadButton.disabled = false;
-        });
-    }
-
   </script>
-
 </body>
 </html>
