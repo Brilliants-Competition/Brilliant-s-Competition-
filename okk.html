@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Brilliant's Competition Registration</title>
+
+  <!-- NEW & BEST LIBRARY FOR PERFECT IMAGE -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image-more/2.12.0/dom-to-image-more.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(to right, #4A90E2, #50C878);
+      color: white;
+      margin: 0;
+      padding-bottom: 100px;
+    }
+    h1 {
+      margin: 20px 0;
+      font-size: 32px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      -webkit-text-stroke: 1px black;
+      color: gold;
+      font-family: 'Oswald', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .note {
+      font-size: 18px;
+      color: yellow;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.3);
+      color: black;
+      animation: fadeIn 1s;
+      text-align: left;
+      overflow: hidden;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      margin-bottom: 4px;
+      font-weight: bold;
+      font-size: 15px;
+    }
+    input, button, select {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0 12px 0;
+      border-radius: 5px;
+      font-size: 16px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+    }
+    input[type="file"] { border: none; padding-left: 0; }
+    button.choose-file-btn {
+      background: #f0f0f0; color: black; border: 1px solid #ccc;
+      text-align: center; padding: 10px; cursor: pointer;
+    }
+    button { cursor: pointer; transition: 0.3s; font-weight: bold;}
+    button:hover { transform: scale(1.02); }
+    .pay-btn { background: green; color: white; }
+    .admit-btn { background: blue; color: white; display: none; }
+    .upload-btn { background: orange; color: white; display: none; }
+    
+    #downloadCardBtn {
+        background: #17a2b8;
+        color: white;
+        margin-top: 15px;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        display: none;
+        width: auto;
+        float: right;
+    }
+    #downloadCardBtn:hover { background: #138496; }
+
+    #photoPreviewContainer { text-align: center; margin: 15px 0; }
+    #photoPreview {
+      display: none; max-width: 90%; max-height: 150px;
+      border: 1px solid #ccc; border-radius: 5px;
+      opacity: 0; transition: opacity 0.5s;
+    }
+    #photoPreview[src^="data:"] { display: inline-block; opacity: 1; }
+
+    #admitCard {
+      display: none;
+      border: 2px solid #0b3c5d;
+      background-color: #ffffff;
+      padding: 15px;
+      margin-top: 25px;
+      border-radius: 8px;
+      font-family: 'Roboto', sans-serif;
+      color: #333;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-header {
+      background-color: #0b3c5d;
+      color: white;
+      padding: 12px;
+      text-align: center;
+      margin: -15px -15px 15px -15px;
+      border-bottom: 2px solid #328cc1;
+      border-radius: 6px 6px 0 0;
+    }
+    .card-header h3 { margin: 0; font-size: 19px; text-transform: uppercase; letter-spacing: 1px; font-family: 'Oswald', sans-serif; }
+    .card-header p { margin: 6px 0 0; font-size: 14px; }
+
+    .card-main-content { display: flex; gap: 15px; margin-bottom: 15px; flex-wrap: wrap; }
+    .card-photo-section { flex: 0 0 120px; text-align: center; }
+    .card-photo-container {
+       border: 2px solid #0b3c5d;
+       padding: 4px;
+       background-color: #f8f9fa;
+       width: 110px;
+       height: 130px;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       margin: auto;
+       overflow: hidden;
+    }
+    #cardPhoto { max-width: 100%; max-height: 100%; object-fit: cover; }
+
+    .card-details-section { flex: 1; min-width: 200px; }
+    .details-group h4 { margin: 0 0 8px 0; font-size: 14px; color: #0b3c5d; border-bottom: 1px solid #eee; padding-bottom: 4px; text-transform: uppercase; font-family: 'Oswald', sans-serif; font-weight: 700; }
+    .detail-item {
+      margin-bottom: 8px; font-size: 14px;
+      display: flex; gap: 5px; line-height: 1.4;
+    }
+    .detail-item strong { font-weight: 700; color: #333; flex-shrink: 0; width: 110px; }
+    .detail-item span { color: #555; flex-grow: 1; }
+    .detail-item span.important { font-weight: bold; color: #000; }
+
+    .card-footer {
+      border-top: 1px solid #d9e2ec;
+      padding-top: 12px;
+      margin-top: 15px;
+      overflow: hidden;
+    }
+    .footer-section {
+       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    }
+    .exam-date-block {
+        background-color: #0b3c5d; color: white; padding: 8px 12px; border-radius: 4px;
+    }
+    .exam-date-block strong { display: block; font-size: 15px; font-family: 'Oswald', sans-serif; text-transform: uppercase; }
+
+    .footer-info p { margin: 0 0 4px 0; font-size: 13px; font-weight: bold; color: #0b3c5d; }
+    .footer-info a { color: #328cc1; text-decoration: none; }
+    .footer-info a:hover { text-decoration: underline; }
+
+    #announcementNotice {
+        display: none; margin: 20px 0; padding: 15px; background-color: #fff3cd;
+        border: 1px solid #ffeeba; color: #856404; border-radius: 5px; text-align: center; font-size: 15px;
+    }
+
+    .footer {
+      position: fixed; bottom: 10px; left: 0; width: 100%;
+      text-align: center; font-size: 15px; font-style: italic;
+      color: white; text-shadow: 1px 1px 2px black; z-index: 10;
+    }
+
+    @media (max-width: 600px) {
+      #downloadCardBtn { float: none; width: 100%; margin-top: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Brilliant's Competition</h1>
+  <p class="note">Note - Hurry up! Limited seats available.</p>
+
+  <div class="container">
+    <h2>Registration Form</h2>
+
+    <label for="name">Full Name:</label>
+    <input type="text" id="name" placeholder="Enter your full name" required>
+
+    <label for="fatherName">Father's Name:</label>
+    <input type="text" id="fatherName" placeholder="Enter father's name" required>
+
+    <label for="class">Class:</label>
+    <input type="text" id="class" placeholder="E.g., 10th, 12th Science" required>
+
+    <label for="schoolName">School Name:</label>
+    <input type="text" id="schoolName" placeholder="Enter your school name" required>
+
+    <label for="address">Address:</label>
+    <input type="text" id="address" placeholder="Enter your full address" required>
+
+    <label for="contactNo">Contact No:</label>
+    <input type="tel" id="contactNo" placeholder="Enter your 10-digit mobile number" required pattern="[0-9]{10}">
+
+    <label for="photoUpload">Upload your photo:</label>
+    <input type="file" id="photoUpload" accept="image/*" style="display: none;" onchange="previewPhoto()">
+    <button type="button" class="choose-file-btn" onclick="document.getElementById('photoUpload').click()">Choose Photo</button>
+    <div id="photoPreviewContainer">
+        <img id="photoPreview" src="#" alt="Your photo preview">
+    </div>
+
+    <h3>Exam Fee: <span style="text-decoration: line-through;">₹100</span> <span style="color: red; font-weight: bold;">₹0</span> (Limited Time Offer!)</h3>
+    <h3>Application Fee: <span style="text-decoration: line-through;">₹200</span> <span style="color: green; font-weight: bold;">₹99 only</span></h3>
+
+    <button class="pay-btn" onclick="payNow()">Pay ₹99 via UPI</button>
+
+    <input type="file" id="paymentScreenshot" accept="image/*" style="display:none;" onchange="enableAdmitCard()">
+    <button class="upload-btn" onclick="document.getElementById('paymentScreenshot').click()">Upload Payment Screenshot</button>
+
+    <div id="announcementNotice">
+        <strong>Updates & Announcements</strong><br>
+        <a href="https://whatsapp.com/channel/0029VbCElulIt5ro8a6f2j3Y" target="_blank">https://whatsapp.com/channel/0029VbCElulIt5ro8a6f2j3Y</a>
+    </div>
+
+    <button class="admit-btn" onclick="generateAdmitCard()">Generate Admit Card</button>
+
+    <!-- ADMIT CARD -->
+    <div id="admitCard">
+        <div class="card-header">
+            <h3>Congratulations!</h3>
+            <p>You are eligible for the Exam</p>
+        </div>
+
+        <div class="card-main-content">
+            <div class="card-photo-section">
+                 <div class="card-photo-container">
+                     <img id="cardPhoto" src="#" alt="Candidate Photo">
+                 </div>
+            </div>
+            <div class="card-details-section">
+                 <div class="details-group">
+                     <h4>Candidate Details</h4>
+                     <div class="detail-item"><strong>NAME:</strong><span id="cardName" class="important"></span></div>
+                     <div class="detail-item"><strong>FATHER'S NAME:</strong><span id="cardFatherName"></span></div>
+                     <div class="detail-item"><strong>CLASS:</strong><span id="cardClass"></span></div>
+                     <div class="detail-item"><strong>ADDRESS:</strong><span id="cardAddress"></span></div>
+                 </div>
+                 <div class="details-group">
+                     <h4>Admit Card Details</h4>
+                     <div class="detail-item"><strong>ROLL NO:</strong><span id="rollNo" class="important"></span></div>
+                     <div class="detail-item"><strong>SCHOOL:</strong><span id="cardSchoolName"></span></div>
+                     <div class="detail-item"><strong>CONTACT NO:</strong><span id="cardContactNo"></span></div>
+                     <div class="detail-item"><strong>REGISTRATION:</strong><span>CONFIRMED</span></div>
+                     <div class="detail-item"><strong>STATUS:</strong><span>ELIGIBLE</span></div>
+                 </div>
+            </div>
+        </div>
+
+        <div class="card-footer">
+             <div class="footer-section">
+                 <div class="exam-date-block"><strong>EXAM DATE</strong></div>
+                 <div class="footer-info">
+                     <p>TO BE ANNOUNCED</p>
+                     <p><a href="https://whatsapp.com/channel/0029VbCElulIt5ro8a6f2j3Y" target="_blank">CHECK GIVEN LINK</a></p>
+                 </div>
+             </div>
+             <button id="downloadCardBtn" onclick="downloadAdmitCard()">Download Admit Card</button>
+             <div style="clear:both;"></div>
+        </div>
+    </div>
+  </div>
+
+  <div class="footer">Developed by Shekhar Mishra</div>
+
+  <script>
+    let uploadedPhotoSrc = null;
+    let currentRollNo = '';
+
+    function previewPhoto() {
+      const file = document.getElementById('photoUpload').files[0];
+      if (!file) return;
+      if (file.size > 2*1024*1024) { alert("Photo size should be under 2MB"); return; }
+      if (!file.type.startsWith('image/')) { alert("Please upload a valid image"); return; }
+
+      const reader = new FileReader();
+      reader.onload = e => {
+        document.getElementById('photoPreview').src = e.target.result;
+        uploadedPhotoSrc = e.target.result;
+        document.getElementById('photoPreview').style.display = 'inline-block';
+        document.getElementById('photoPreview').style.opacity = 1;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function payNow() {
+      // ... same as before (unchanged)
+      const fields = ['name','fatherName','class','schoolName','address','contactNo'];
+      if (fields.some(f => !document.getElementById(f).value.trim()) || !uploadedPhotoSrc) {
+        alert("Please fill all fields and upload photo"); return;
+      }
+      if (!/^\d{10}$/.test(document.getElementById('contactNo').value)) {
+        alert("Enter valid 10-digit number"); return;
+      }
+
+      alert("Redirecting to UPI app for ₹99 payment...");
+      setTimeout(() => {
+        window.location.href = "upi://pay?pa=mishramishra8085@okhdfcbank&pn=BrilliantsCompetition&am=99&cu=INR&tn=RegistrationFee";
+      }, 800);
+
+      setTimeout(() => {
+        document.querySelector('.pay-btn').style.display = 'none';
+        document.querySelector('.upload-btn').style.display = 'block';
+      }, 1200);
+    }
+
+    function enableAdmitCard() {
+      if (document.getElementById('paymentScreenshot').files[0]) {
+        alert("Screenshot uploaded! Now generate admit card.");
+        document.querySelector('.upload-btn').style.display = 'none';
+        document.getElementById('announcementNotice').style.display = 'block';
+        document.querySelector('.admit-btn').style.display = 'block';
+      }
+    }
+
+    function generateAdmitCard() {
+      // ... same population logic
+      const name = document.getElementById('name').value.trim();
+      const namePart = name.substring(0,3).toUpperCase().replace(/[^A-Z]/g,'X') || 'STU';
+      currentRollNo = "BRIL" + namePart + Date.now().toString().slice(-5);
+
+      document.getElementById('cardName').innerText = name;
+      document.getElementById('cardFatherName').innerText = document.getElementById('fatherName').value.trim();
+      document.getElementById('cardClass').innerText = document.getElementById('class').value.trim();
+      document.getElementById('cardAddress').innerText = document.getElementById('address').value.trim();
+      document.getElementById('rollNo').innerText = currentRollNo;
+      document.getElementById('cardSchoolName').innerText = document.getElementById('schoolName').value.trim();
+      document.getElementById('cardContactNo').innerText = document.getElementById('contactNo').value.trim();
+      document.getElementById('cardPhoto').src = uploadedPhotoSrc;
+
+      document.getElementById('admitCard').style.display = 'block';
+      document.getElementById('downloadCardBtn').style.display = 'inline-block';
+      document.querySelector('.admit-btn').style.display = 'none';
+    }
+
+    // PERFECT DOWNLOAD FUNCTION
+    function downloadAdmitCard() {
+      const node = document.getElementById('admitCard');
+      const btn = document.getElementById('downloadCardBtn');
+      btn.textContent = "Preparing...";
+      btn.disabled = true;
+
+      // Temporarily hide button
+      btn.style.display = 'none';
+
+      domtoimage.toPng(node, {
+        quality: 1,
+        bgcolor: '#ffffff',
+        width: node.scrollWidth * 3,
+        height: node.scrollHeight * 3,
+        style: { transform: 'scale(3)', transformOrigin: 'top left' }
+      })
+      .then(dataUrl => {
+        const link = document.createElement('a');
+        link.download = `Brilliants_Admit_Card_${currentRollNo}.png`;
+        link.href = dataUrl;
+        link.click();
+
+        btn.textContent = "Download Admit Card";
+        btn.style.display = 'inline-block';
+        btn.disabled = false;
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Download failed. Try again.");
+        btn.textContent = "Download Admit Card";
+        btn.style.display = 'inline-block';
+        btn.disabled = false;
+      });
+    }
+  </script>
+</body>
+</html>
