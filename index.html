@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -161,6 +160,9 @@
       
       <label>Contact No:</label>
       <input type="tel" id="contactNo" placeholder="WhatsApp Number">
+
+      <label>Referral Code (Optional):</label>
+      <input type="text" id="refCode" placeholder="Enter code if any">
       
       <label>Upload Photo:</label>
       <input type="file" id="photoUpload" accept="image/*" onchange="previewPhoto()">
@@ -239,6 +241,7 @@
       const school = document.getElementById('schoolName').value;
       const address = document.getElementById('address').value;
       const contact = document.getElementById('contactNo').value;
+      const refCode = document.getElementById('refCode').value || "None"; // Referral Code logic
 
       const text = `*NEW REGISTRATION*\n\n` +
                    `*Name:* ${name}\n` +
@@ -247,7 +250,8 @@
                    `*Medium:* ${medium}\n` +
                    `*School:* ${school}\n` +
                    `*Address:* ${address}\n` +
-                   `*Contact:* ${contact}\n\n` +
+                   `*Contact:* ${contact}\n` +
+                   `*Referral Code:* ${refCode}\n\n` +
                    `_(I am sending my Payment Screenshot and Student's Photo below)_`;
 
       window.open(`https://wa.me/${WHATSAPP_NO}?text=${encodeURIComponent(text)}`, '_blank');
