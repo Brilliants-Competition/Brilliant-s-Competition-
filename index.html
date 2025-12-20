@@ -60,7 +60,16 @@
       text-align: left;
     }
     label { display: block; margin-top: 10px; font-weight: bold; font-size: 13px; color: #333; }
-    input { width: 100%; padding: 10px; margin: 5px 0 10px 0; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; font-size: 14px; }
+    input, select { 
+      width: 100%; 
+      padding: 12px; 
+      margin: 5px 0 10px 0; 
+      border-radius: 5px; 
+      border: 1px solid #ccc; 
+      box-sizing: border-box; 
+      font-size: 14px; 
+      background: white;
+    }
     
     .fee-structure {
       background: #f8f9fa;
@@ -77,7 +86,6 @@
     button { cursor: pointer; border: none; border-radius: 6px; font-weight: bold; }
     .pay-btn { width: 100%; padding: 15px; background: #007bff; color: white; font-size: 16px; margin-top: 10px; }
     
-    /* Hide by default */
     #postPaymentActions { display: none; flex-direction: column; gap: 12px; margin-top: 15px; }
     
     .tutorial-line {
@@ -117,14 +125,40 @@
     <div id="regForm">
       <label>Full Name:</label>
       <input type="text" id="name" placeholder="Enter student name">
+      
       <label>Father's Name:</label>
       <input type="text" id="fatherName" placeholder="Father's name">
-      <label>Class:</label>
-      <input type="text" id="class" placeholder="e.g. 10th">
+      
+      <div style="display: flex; gap: 10px;">
+        <div style="flex: 1;">
+          <label>Class:</label>
+          <select id="class">
+            <option value="" disabled selected>Select</option>
+            <option value="6th">6th</option>
+            <option value="7th">7th</option>
+            <option value="8th">8th</option>
+            <option value="9th">9th</option>
+            <option value="10th">10th</option>
+            <option value="11th">11th</option>
+            <option value="12th">12th</option>
+          </select>
+        </div>
+        <div style="flex: 1;">
+          <label>Medium:</label>
+          <select id="medium">
+            <option value="" disabled selected>Select</option>
+            <option value="Hindi">Hindi</option>
+            <option value="English">English</option>
+          </select>
+        </div>
+      </div>
+      
       <label>School Name:</label>
       <input type="text" id="schoolName" placeholder="Your school name">
+      
       <label>Address:</label>
       <input type="text" id="address" placeholder="Full address">
+      
       <label>Contact No:</label>
       <input type="tel" id="contactNo" placeholder="WhatsApp Number">
       
@@ -172,27 +206,25 @@
 
     function handlePayment() {
       const name = document.getElementById('name').value.trim();
-      if(!name) { alert("Please enter name first"); return; }
+      const studentClass = document.getElementById('class').value;
+      const medium = document.getElementById('medium').value;
+      if(!name || !studentClass || !medium) { 
+        alert("Kripya Name, Class aur Medium sahi se chune."); 
+        return; 
+      }
       
-      // UPI Trigger
-      const upiUrl = "upi://pay?pa=mishramishra8085@okhdfcbank&pn=Brilliants&am=99&cu=INR";
-      window.location.href = upiUrl;
+      window.location.href = "upi://pay?pa=mishramishra8085@okhdfcbank&pn=Brilliants&am=99&cu=INR";
 
-      // Logic to show next buttons
       setTimeout(() => {
         document.getElementById('payBtn').style.display = 'none';
         document.getElementById('postPaymentActions').style.display = 'flex';
-        // Auto-play audio on some devices (optional)
         playTutorial();
       }, 3000);
     }
 
     function playTutorial() {
       const msg = "सेंड डिटेल्स वाले ऑप्शन पर टच करके अपनी डिटेल्स सेंड करें एडमिन के पास, फिर अपना पेमेंट का स्क्रीनशॉट सेंड करें, फिर स्टूडेंट का फोटो सेंड करें उसी सपोर्ट नंबर पर। अगर आप चाहे तो कोई भी हेल्प ले सकते हैं व्हाट्सएप के माध्यम से। फिर आपको चौबीस घंटे के अंदर बिल्कुल फ्री में टीम की तरफ से सिलेबस और आपका एडमिट कार्ड भेज दिया जाएगा। धन्यवाद!";
-      
-      // Stop any current speech
       window.speechSynthesis.cancel();
-      
       const speech = new SpeechSynthesisUtterance(msg);
       speech.lang = 'hi-IN';
       speech.rate = 1.3;
@@ -200,26 +232,25 @@
     }
 
     function sendDetailsWhatsApp() {
-      const data = {
-        n: document.getElementById('name').value,
-        f: document.getElementById('fatherName').value,
-        c: document.getElementById('class').value,
-        s: document.getElementById('schoolName').value,
-        a: document.getElementById('address').value,
-        p: document.getElementById('contactNo').value
-      };
+      const name = document.getElementById('name').value;
+      const father = document.getElementById('fatherName').value;
+      const studentClass = document.getElementById('class').value;
+      const medium = document.getElementById('medium').value;
+      const school = document.getElementById('schoolName').value;
+      const address = document.getElementById('address').value;
+      const contact = document.getElementById('contactNo').value;
 
       const text = `*NEW REGISTRATION*\n\n` +
-                   `*Name:* ${data.n}\n` +
-                   `*Father:* ${data.f}\n` +
-                   `*Class:* ${data.c}\n` +
-                   `*School:* ${data.s}\n` +
-                   `*Address:* ${data.a}\n` +
-                   `*Contact:* ${data.p}\n\n` +
+                   `*Name:* ${name}\n` +
+                   `*Father:* ${father}\n` +
+                   `*Class:* ${studentClass}\n` +
+                   `*Medium:* ${medium}\n` +
+                   `*School:* ${school}\n` +
+                   `*Address:* ${address}\n` +
+                   `*Contact:* ${contact}\n\n` +
                    `_(I am sending my Payment Screenshot and Student's Photo below)_`;
 
-      const waUrl = `https://wa.me/${WHATSAPP_NO}?text=${encodeURIComponent(text)}`;
-      window.open(waUrl, '_blank');
+      window.open(`https://wa.me/${WHATSAPP_NO}?text=${encodeURIComponent(text)}`, '_blank');
     }
   </script>
 </body>
