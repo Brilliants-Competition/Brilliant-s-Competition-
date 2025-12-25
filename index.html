@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="hi">
 <head>
@@ -70,6 +71,32 @@
       background: white;
     }
     
+    /* Photo Upload Design */
+    .file-upload-wrapper {
+      position: relative;
+      width: 100%;
+      height: 50px;
+      border: 2px dashed #007bff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f0f7ff;
+      cursor: pointer;
+      margin-top: 5px;
+      transition: 0.3s;
+    }
+    .file-upload-wrapper:hover { background: #e1efff; }
+    .file-upload-wrapper input[type="file"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .file-upload-text { color: #007bff; font-weight: bold; font-size: 14px; }
+    #photoPreview { display: none; max-width: 120px; border: 2px solid #50C878; margin-top: 10px; border-radius: 8px; }
+
     .fee-structure {
       background: #f8f9fa;
       padding: 12px;
@@ -106,8 +133,6 @@
       width: 100%; background: #25D366; color: white; padding: 14px; 
       font-size: 16px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
-
-    #photoPreview { display: none; max-width: 80px; border: 1px solid #ddd; margin-top: 5px; border-radius: 4px; }
   </style>
 </head>
 <body>
@@ -138,8 +163,6 @@
             <option value="8th">8th</option>
             <option value="9th">9th</option>
             <option value="10th">10th</option>
-            <option value="11th">11th</option>
-            <option value="12th">12th</option>
           </select>
         </div>
         <div style="flex: 1;">
@@ -160,12 +183,12 @@
       
       <label>Contact No:</label>
       <input type="tel" id="contactNo" placeholder="WhatsApp Number">
-
-      <label>Referral Code (Optional):</label>
-      <input type="text" id="refCode" placeholder="Enter code if any">
       
-      <label>Upload Photo:</label>
-      <input type="file" id="photoUpload" accept="image/*" onchange="previewPhoto()">
+      <label>Upload Student Photo:</label>
+      <div class="file-upload-wrapper">
+        <span class="file-upload-text">📁 Choose Student Photo</span>
+        <input type="file" id="photoUpload" accept="image/*" onchange="previewPhoto()">
+      </div>
       <center><img id="photoPreview" src=""></center>
 
       <div class="fee-structure">
@@ -193,6 +216,7 @@
 
   <script>
     const WHATSAPP_NO = "14242080795";
+    let isPaymentInitiated = false;
 
     function previewPhoto() {
       const file = document.getElementById('photoUpload').files[0];
@@ -201,28 +225,41 @@
         reader.onload = e => {
           document.getElementById('photoPreview').src = e.target.result;
           document.getElementById('photoPreview').style.display = 'block';
+          document.querySelector('.file-upload-text').innerText = "✅ Photo Selected";
         };
         reader.readAsDataURL(file);
       }
     }
 
     function handlePayment() {
-      const name = document.getElementById('name').value.trim();
-      const studentClass = document.getElementById('class').value;
-      const medium = document.getElementById('medium').value;
-      if(!name || !studentClass || !medium) { 
-        alert("Kripya Name, Class aur Medium sahi se chune."); 
+      const fields = {
+        name: document.getElementById('name').value.trim(),
+        father: document.getElementById('fatherName').value.trim(),
+        class: document.getElementById('class').value,
+        medium: document.getElementById('medium').value,
+        school: document.getElementById('schoolName').value.trim(),
+        address: document.getElementById('address').value.trim(),
+        contact: document.getElementById('contactNo').value.trim(),
+        photo: document.getElementById('photoUpload').files[0]
+      };
+
+      if(!fields.name || !fields.father || !fields.class || !fields.medium || !fields.school || !fields.address || !fields.contact || !fields.photo) { 
+        alert("Kripya sabhi jaankari aur photo sahi se bharein."); 
         return; 
       }
       
+      isPaymentInitiated = true;
       window.location.href = "upi://pay?pa=mishramishra8085@okhdfcbank&pn=Brilliants&am=99&cu=INR";
+    }
 
-      setTimeout(() => {
+    window.onfocus = function() {
+      if (isPaymentInitiated) {
         document.getElementById('payBtn').style.display = 'none';
         document.getElementById('postPaymentActions').style.display = 'flex';
         playTutorial();
-      }, 3000);
-    }
+        isPaymentInitiated = false;
+      }
+    };
 
     function playTutorial() {
       const msg = "सेंड डिटेल्स वाले ऑप्शन पर टच करके अपनी डिटेल्स सेंड करें एडमिन के पास, फिर अपना पेमेंट का स्क्रीनशॉट सेंड करें, फिर स्टूडेंट का फोटो सेंड करें उसी सपोर्ट नंबर पर। अगर आप चाहे तो कोई भी हेल्प ले सकते हैं व्हाट्सएप के माध्यम से। फिर आपको चौबीस घंटे के अंदर बिल्कुल फ्री में टीम की तरफ से सिलेबस और आपका एडमिट कार्ड भेज दिया जाएगा। धन्यवाद!";
@@ -234,24 +271,14 @@
     }
 
     function sendDetailsWhatsApp() {
-      const name = document.getElementById('name').value;
-      const father = document.getElementById('fatherName').value;
-      const studentClass = document.getElementById('class').value;
-      const medium = document.getElementById('medium').value;
-      const school = document.getElementById('schoolName').value;
-      const address = document.getElementById('address').value;
-      const contact = document.getElementById('contactNo').value;
-      const refCode = document.getElementById('refCode').value || "None"; // Referral Code logic
-
       const text = `*NEW REGISTRATION*\n\n` +
-                   `*Name:* ${name}\n` +
-                   `*Father:* ${father}\n` +
-                   `*Class:* ${studentClass}\n` +
-                   `*Medium:* ${medium}\n` +
-                   `*School:* ${school}\n` +
-                   `*Address:* ${address}\n` +
-                   `*Contact:* ${contact}\n` +
-                   `*Referral Code:* ${refCode}\n\n` +
+                   `*Name:* ${document.getElementById('name').value}\n` +
+                   `*Father:* ${document.getElementById('fatherName').value}\n` +
+                   `*Class:* ${document.getElementById('class').value}\n` +
+                   `*Medium:* ${document.getElementById('medium').value}\n` +
+                   `*School:* ${document.getElementById('schoolName').value}\n` +
+                   `*Address:* ${document.getElementById('address').value}\n` +
+                   `*Contact:* ${document.getElementById('contactNo').value}\n\n` +
                    `_(I am sending my Payment Screenshot and Student's Photo below)_`;
 
       window.open(`https://wa.me/${WHATSAPP_NO}?text=${encodeURIComponent(text)}`, '_blank');
